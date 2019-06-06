@@ -13,7 +13,7 @@ DDL Dump using:
 pg_dump -s -U postgres gitlabhq_production -f postgres_gitlabhq_production_ddlonly.dump
 ```
 
-Eg:
+Example:
 ```
 # Execcute this script using:  
 db_data_merge.py mysql_gitlabhq_production_dataonly.mysql postgres_gitlabhq_production_ddlonly.dump gitlabhq_production_merged.psql
