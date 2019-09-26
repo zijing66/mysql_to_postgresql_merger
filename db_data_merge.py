@@ -77,16 +77,21 @@ def parse(data_input_filename, ddl_input_filename, output_filename):
         logging.write(write_log)
         logging.flush()
 
-        data_line = data_line.decode("utf8").strip().replace(r"\\", "WUBWUBREALSLASHWUB").replace(r"\'", "''").replace(
-            "WUBWUBREALSLASHWUB", r"\\")
+        data_line = data_line.decode("utf8").strip()\
+            .replace(r"\\", "#WUBWUBREALSLASHWUB#")\
+            .replace(r"\'", "''")\
+            .replace("#WUBWUBREALSLASHWUB#", r"\\")
         # Ignore comment lines
-        if data_line.startswith("--") or data_line.startswith("/*") or data_line.startswith("LOCK TABLES") or data_line.startswith(
-                "DROP TABLE") or data_line.startswith("UNLOCK TABLES") or not data_line:
+        if data_line.startswith("--") \
+                or data_line.startswith("/*") \
+                or data_line.startswith("LOCK TABLES") \
+                or data_line.startswith("DROP TABLE") or data_line.startswith("UNLOCK TABLES") or not data_line:
             continue
         if data_line.startswith("INSERT INTO"):
             current_data_table = data_line.split('"')[1]
             data_tables[current_data_table] = current_data_table
-            tmp_output.write(data_line.encode("utf8").replace("'0000-00-00 00:00:00'", "NULL") + "\n")
+            # tmp_output.write(data_line.encode("utf8").replace("'0000-00-00 00:00:00'", "NULL") + "\n")
+            tmp_output.write(data_line.encode("utf8") + "\n")
             data_num_inserts += 1
     tmp_output.close()
     
